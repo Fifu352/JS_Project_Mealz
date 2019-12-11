@@ -1,0 +1,17 @@
+{
+    "tables": {
+        "FoodIngredients": {
+            "tableName": "FoodIngredients",
+            "indexes": []
+        },
+        "Ingredients": {
+            "tableName": "Ingredients",
+            "indexes": []
+        },
+        "Meals": {
+            "tableName": "Meals",
+            "indexes": []
+        }
+    },
+    "revision": 1
+}

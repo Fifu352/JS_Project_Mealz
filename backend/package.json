@@ -1,0 +1,23 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
+    "express-bearer-token": "^2.4.0",
+    "sequelize": "^5.21.2",
+    "sequelize-auto-migrations": "^1.0.3",
+    "sqlite3": "^4.1.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "sequelize-cli": "^5.5.1",
+    "sequelize-test-helpers": "^1.2.0",
+    "sinon": "^7.5.0",
+    "supertest": "^4.0.2"
+  }
+}
