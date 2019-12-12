@@ -5,42 +5,68 @@ describe('loading express', () => {
   beforeEach(() => server = require('../../app'))
   afterEach(() => server.close())
 
-  it('secures to api', (done) => {
+  it('secures to api 403', (done) => {
     request(server)
-      .get('/')
+      .get('/ingredients')
       .expect(403, done)
   })
 
-  it('secures to api', (done) => {
+  it('secures to api 200', (done) => {
     request(server)
-      .get('/')
-      .set('Authorization', 'XYZ')
+      .get('/ingredients')
+      .set('code', 'XYZ')
       .expect(200, done)
   })
 
   it('404 everything else', (done) => {
     request(server)
       .get('/foo/bar/path')
-      .set('Authorization', 'XYZ')
+      .set('code', 'XYZ')
       .expect(404, done)
   })
 })
 
-describe('movies', () => {
+describe('posts', () => {
   beforeEach(() => server = require('../../app'))
   afterEach(() => server.close())
 
-  it('saves a movie', (done) => {
+  it('saves an ingredinet', (done) => {
     request(server)
-      .post('/movies')
-      .set('Authorization', 'XYZ')
+      .post('/ingredients')
+      .set('code', 'XYZ')
       .send({
-        name: "new movie",
-        year: 2019
+        name: "beef",
       })
       .expect(200, {
-        name: "new movie",
-        year: 2019
+        status: "done",
+
       }, done)
   })
+
+  it('saves a meal', (done) => {
+    request(server)
+        .post('/meals')
+        .set('code', 'XYZ')
+        .send({
+          name: "Pizza",
+        })
+        .expect(200, {
+          name: "Pizza",
+
+        }, done)
+  })
+
+  it('saves a meal', (done) => {
+    request(server)
+        .post('/meals')
+        .set('code', 'XYZ')
+        .send({
+          name: "Pizza",
+        })
+        .expect(200, {
+          name: "Pizza",
+
+        }, done)
+  })
+
 })

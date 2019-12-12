@@ -3,12 +3,14 @@ const bodyParser = require('body-parser')
 const uuidv4 = require('uuid/v4');
 
 const cors = require('cors');
+const foodQueue = require('./foodQueue')
+const axios = require('axios');
 
 const app = express()
 const port = 4000
 const db = require('./models')
 const basicAuth = require('express-basic-auth')
-
+const calc = require('./calc')
 // SERVER
 
 
@@ -35,6 +37,10 @@ const auth = basicAuth({
         user: '456',
     },
 });
+
+
+
+
 
 app.get('/authenticate', auth, jsonParser, (req, res) => {
     const { user, password} = req.auth
@@ -90,14 +96,10 @@ app.get('/foodingredients', function (req, res) {
 })
 
 app.post('/ingredients', jsonParser, (req, res) => {
-  const { name, kcal, proteins, carbs, fats } = req.body
+  const { name} = req.body
+    foodQueue.add({name: name})
+    return res.send({status: 'done'})
 
-  return db.Ingredient.create({ name, kcal, proteins, carbs, fats })
-    .then((ingredient) => res.send({ name, kcal, proteins, carbs, fats }))
-    .catch((err) => {
-      console.log('Oooops! Can not create an ingredient!', JSON.stringify(err))
-      return res.status(400).send(err)
-    })
 })
 
 app.post('/meals', jsonParser, (req, res) => {
@@ -163,25 +165,6 @@ app.delete('/meals/:id', async (req, res) => {
 
 
 
-// app.get('/movies/search', (req, res) => {
-//   const { name, year } = req.query
-//   return db.Movie.findAll({
-//       where: {
-//         year: {
-//           [Op.eq]: year
-//         },
-//         name: {
-//           [Op.like]: '%' + name + '%'
-//         }
-//       }
-//     })
-//     .then((movies) => res.send(movies))
-//     .catch((err) => {
-//       console.log('Oooops! No movies!', JSON.stringify(err))
-//       return res.send(err)
-//     })
-// })
-
 
 
 
@@ -204,10 +187,10 @@ app.put('/meals/addingredient/:mealId', jsonParser, (req, res) => {
             db.Ingredient.findByPk(ingredientId)
                 .then((ingredient) => {
                     meal.update({
-                        kcal:meal.kcal  + weight * ingredient.kcal/100,
-                        proteins:meal.proteins  + weight * ingredient.proteins/100,
-                        carbs:meal.carbs  + weight * ingredient.carbs/100,
-                        fats:meal.fats  + weight * ingredient.fats/100,
+                        kcal:calc(meal.kcal,ingredient.kcal,weight)  ,
+                        proteins:calc(meal.proteins,ingredient.proteins, weight),
+                        carbs:calc(meal.carbs,ingredient.carbs, weight),
+                        fats:calc(meal.fats,ingredient.fats, weight),
                     })
                 .catch((err) => {
                 console.log('Oooops! Can not create a meal!', JSON.stringify(FoodIngredient))
@@ -217,35 +200,6 @@ app.put('/meals/addingredient/:mealId', jsonParser, (req, res) => {
         }
 })
     })
-//
-//     update({
-//       name:name,
-//       kcal:kcal,
-//       proteins:proteins,
-//       carbs:carbs,
-//       fats:fats
-//   },{
-//       where: id
-//   }).then(function(rowsUpdated) {
-//       res.json(rowsUpdated)
-//   }).catch(next)
 
-
-// app.get('/movies/:id/categories', jsonParser, (req, res) => {
-//   const id = parseInt(req.params.id)
-//   return db.Movie.findByPk(id)
-//   .then((movie) => {
-//     if ( movie === null ) {
-//       return res.status(400).send("Ooops! No movie!")
-//     }
-//
-//     return movie.getCategories()
-//       .then((categories) => res.send(categories))
-//       .catch((err) => {
-//         console.log('Oooops! Can not add movie to a category', JSON.stringify(err))
-//         res.status(400).send(err)
-//       })
-//   })
-// })
 
 module.exports = server;

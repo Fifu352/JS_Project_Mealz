@@ -9,6 +9,10 @@ import meal from "../meal/meal";
 import mealList from "../mealList/mealList";
 import addIngredientToTheMeals from "../addIngredientToTheMeals";
 import myMeal from "../myMeal/myMeal";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 
 class Login extends Component {
 
@@ -18,7 +22,7 @@ class Login extends Component {
             username: '',
             password: '',
             error: '',
-            credit: 'blue'
+            credit: cookies.get('auth')
         };
 
 
@@ -51,6 +55,7 @@ class Login extends Component {
                 this.setState({
                     credit: "green"
                 })
+                cookies.set('auth', 'green', { path: '/' });
 
             }
         }).catch(function (response) {
@@ -72,6 +77,12 @@ class Login extends Component {
         this.setState({
             password: evt.target.value,
         });
+    }
+
+    logout(evt){
+        evt.preventDefault();
+        cookies.set('auth', 'red', { path: '/' });
+        window.location.reload();
     }
 
     render() {
@@ -108,6 +119,9 @@ class Login extends Component {
                 <Router>
                     <div>
                         <nav>
+                            <button onClick={this.logout} value={this.state.credit} >
+                                Logout
+                            </button>
                             <ul>
 
                                 <li>

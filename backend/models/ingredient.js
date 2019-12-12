@@ -2,10 +2,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Ingredient = sequelize.define('Ingredient', {
     name: DataTypes.STRING,
-    kcal: DataTypes.FLOAT,
-    proteins: DataTypes.FLOAT,
-    carbs: DataTypes.FLOAT,
-    fats: DataTypes.FLOAT
+    kcal: DataTypes.FLOAT(2),
+    proteins: DataTypes.FLOAT(2),
+    carbs: DataTypes.FLOAT(2),
+    fats: DataTypes.FLOAT(2)
   }, {});
   Ingredient.associate = function(models) {
     Ingredient.belongsToMany(models.Meal, { through: models.FoodIngredient });

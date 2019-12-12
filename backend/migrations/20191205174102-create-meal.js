@@ -12,16 +12,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       kcal: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT(2)
       },
       proteins: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT(2)
       },
       carbs: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT(2)
       },
       fats: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT(2)
       },
       createdAt: {
         allowNull: false,

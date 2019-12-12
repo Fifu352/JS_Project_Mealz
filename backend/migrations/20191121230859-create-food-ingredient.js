@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       weight: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT(2)
       },
       ingredientId: {
         type: Sequelize.INTEGER
