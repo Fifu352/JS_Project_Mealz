@@ -15,7 +15,13 @@ class foodList extends PureComponent {
             Ingredients: []
         };
     }
+    componentDidMount() {
 
+        this.interval = setInterval(() => this.getIngredients(), 5000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
     getIngredients = () => {
         axios({
             method: 'GET',
@@ -48,9 +54,7 @@ class foodList extends PureComponent {
             console.log(error)
         })
     }
-    componentDidMount(){
-        this.getIngredients()
-    }
+
 
     deleteHandler(i, e) {
         e.preventDefault();
