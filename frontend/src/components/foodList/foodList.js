@@ -16,7 +16,7 @@ class foodList extends PureComponent {
         };
     }
     componentDidMount() {
-
+        this.getIngredients()
         this.interval = setInterval(() => this.getIngredients(), 5000);
     }
     componentWillUnmount() {
